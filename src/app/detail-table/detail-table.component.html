@@ -1,0 +1,81 @@
+<div class="container py-3">
+        <div *ngIf = '!(data|async).info'>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%"></div>
+            </div>
+        </div>
+        <div *ngIf = '(data|async).info'>
+            <div class = 'row'>
+                <h3 class = 'mx-auto'>{{(data|async).name}}</h3>
+            </div> 
+            <div class = 'd-flex justify-content-end mb-2'>
+                <button (click) = 'display.showSearch()' class = 'btn btn-outline-light text-dark justify-content-start' style = 'border:1px solid #333333' [disabled] = "search.calledNum == 0 ">
+                        <i class="fas fa-angle-left"></i><span> List</span>
+                </button>
+
+                <div class = 'd-flex ml-auto'>
+                    <favourite-btn class = 'd-flex mr-2' [result] = 'result'></favourite-btn>
+                    <div class = 'btn btn-outline-light text-dark twitter-icon ' style = 'border:1px solid #333333'>
+                            <a [href] = '"https://twitter.com/intent/tweet?text=Check Out"+(info|async).name+" located at "+address+". Website:"+((info|async).website?(info|async).website:(info|async).google_page)+"&hashtags=TravelAndEntertainmentSearch"'>
+                                <i class="fab fa-twitter" style='color:white'></i>
+                            </a>
+                    </div>    
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-12 mx-auto">
+                <ul class="nav nav-tabs small justify-content-end" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab1" role="tab">Info</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab2" role="tab">Photos</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab3" role="tab" (click) = 'enterMap()'>Map</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab4" role="tab">Reviews</a></li>
+                </ul>
+                <div class="tab-content py-4">
+                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                            <info [info] = 'info'></info>
+                    </div>
+                    <div class="tab-pane" id="tab2" role="tabpanel">
+                            <photos [photos] = 'photos'></photos>
+                    </div>
+                    <div class="tab-pane" id="tab3" role="tabpanel">
+                            <form #mapForm = 'ngForm'>
+                                    <div class="form-row align-items-center">
+                                        <div class="col-md-4 my-1">
+                                                    <label class="mr-sm-2">From</label>
+                                                    <input #start [(ngModel)] = 'inputLocation.inputAddress' #fromAddress = 'ngModel' name = 'origin' placeholder="Required" type="text" class="form-control mb-2 mr-sm-2" [class.red-border] = '!startCheck()' (keydown.enter)="$event.preventDefault()"  required>
+                                        </div>
+                                        <div class="col-md-4 my-1">
+                                                    <label class="mr-sm-2">To</label>
+                                                    <input readonly name = 'destination' [ngModel] = 'address' type="text" class="form-control mb-2 mr-sm-2" #end>
+                                        </div>
+                                        <div class="col-md-2 my-1">
+                                            <label class="mr-sm-2">Travel Mode</label>
+                                            <select class="custom-select mr-sm-2 mb-2" ngModel = 'DRIVING' name = 'travelMode'>
+                                                <option selected value="DRIVING">Driving</option>
+                                                <option value="WALKING">Walking</option>
+                                                <option value="BICYCLING">Bicycling</option>
+                                                <option value="TRANSIT">Transit</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 my-1">
+                                                <label class="mr-sm-2"></label>
+                                                <button [disabled] = 'fromAddress.invalid ||  !startCheck()' (click) = 'getDirection(mapForm)' class="btn btn-primary form-control mr-sm-2">Get Direction</button>
+                                        </div>
+                                    </div>
+                                    <div class = 'text-danger' *ngIf = 'fromAddress.invalid || !startCheck() '>Please enter a Address.</div>
+                                </form>
+
+                                <agm-map #agmMap style="height:300px" [latitude]='placeLat' [longitude]='placeLng'>
+                                    <agm-marker  [visible] = 'showMarker' [latitude]="placeLat" [longitude]="placeLng"></agm-marker>
+                                    <agm-direction [visible] = 'showDir' [panel]="myPanel" *ngIf="dir" [origin]="dir.origin" [destination]="dir.destination" [travelMode] = "dir.travelMode"></agm-direction>
+                                </agm-map>
+                                <div #myPanel></div> 
+                    </div>
+                    <div class="tab-pane" id="tab4" role="tabpanel">
+                            <reviews [reviews] = 'reviews'></reviews>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

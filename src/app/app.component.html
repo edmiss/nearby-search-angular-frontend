@@ -1,0 +1,47 @@
+<div class = 'col-sm-12 col-md-8 mx-auto'>
+    <div class = 'jumbotron' style="text-align:center;background:#f2f2f2;border: 2px solid #cccccc;margin:30px auto 30px auto;padding:30px">
+        <h4>Travel and Entertainment Search</h4>
+        <search-form [lat] = 'localLat' [lng] = 'localLng' (emitter)='processForm($event)'></search-form>
+    </div>
+</div>
+
+
+<div class  = 'mx-auto'>
+    <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" (click) = 'display.showResults()'[class.active] = 'display.resultState == "active"' id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Results</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click) = 'display.showFavourite()' [class.active] = 'display.favouriteState=="active"' id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Favorite</a>
+        </li>
+    </ul>
+
+    <div class="tab-content col-12-sm" id="pills-tabContent">
+        <div class="tab-pane fade" [class.show] = 'display.resultState == "active"' [class.active]= 'display.resultState == "active"' id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div [@toggle-left] = "display.searchState">
+                <result-table  [tableContent] = 'searchResult' [locError] = 'locError' class = 'col-sm-12 col-md-10'></result-table>
+            </div>
+            <div [@toggle-right] = "display.detailState">
+                    <detail-table [data] = 'detailResult'></detail-table>
+            </div>
+        </div>
+        <div class="tab-pane fade" [class.show] = 'display.favouriteState=="active"' [class.active] = 'display.favouriteState=="active"' id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <favourite-table></favourite-table>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+<div [@toggle-left] = "display.searchState">
+    <result-table  [tableContent] = 'searchResult'  class = 'col-sm-10 col-md-8'></result-table>
+</div>
+<div [@toggle-right] = "display.detailState">
+    <detail-table [data] = 'detailResult'></detail-table>
+</div> -->
+
+
+
+
+<!-- 
+<div>{{ detailResult | async | json }}</div> -->

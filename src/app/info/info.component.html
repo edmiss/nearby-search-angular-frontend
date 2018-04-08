@@ -1,0 +1,82 @@
+<div *ngIf = '(info|async)' class = 'mt-4'>
+    <table class="table table-striped">
+        <tr *ngIf = '(info|async).address'>
+          <td><strong>Address</strong></td>
+          <td>{{(info|async).address}}</td>
+        </tr>
+        <tr *ngIf = '(info|async).phone_number'>
+            <td><strong>Phone Number</strong></td>
+            <td>{{(info|async).phone_number}}</td>
+        </tr>
+        <tr *ngIf = '(info|async).price_level'>
+          <td><strong>Price Level</strong></td>
+          <td *ngIf = '(info|async).price_level == 0'>Free</td>
+          <td *ngIf = '(info|async).price_level == 1'>$</td>
+          <td *ngIf = '(info|async).price_level == 2'>$$</td>
+          <td *ngIf = '(info|async).price_level == 3'>$$$</td>
+          <td *ngIf = '(info|async).price_level == 4'>$$$$</td>
+        </tr>
+        <tr  *ngIf = '(info|async).rating'>
+            <td><strong>Rating</strong></td>
+            <td>
+                <span>{{(info|async).rating}}</span>
+                <ng-template #t let-fill="fill">
+                        <span class="star" [class.full]="fill === 100">
+                            <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                        </span>
+                </ng-template>
+                <ngb-rating [rate]="(info|async).rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+            </td>
+        </tr> 
+        <tr *ngIf = '(info|async).google_page'>
+            <td><strong>Google Page</strong></td>
+            <td><a [href] = '(info|async).google_page'>{{(info|async).google_page}}</a></td>
+        </tr>
+        <tr *ngIf = '(info|async).website'>
+            <td><strong>Website</strong></td>
+            <td><a [href] = '(info|async).website'>{{(info|async).website}}</a></td>
+        </tr>
+        <tr *ngIf = '(info|async).opening_hours'>
+            <td><strong>Hours</strong></td>
+            <td>
+                <span *ngIf = '(info|async).opening_hours.open_now'>
+                    Open now: 
+                </span>
+                <span *ngIf = '!(info|async).opening_hours.open_now'>
+                    Closed 
+                </span>
+                <span  *ngIf = '(info|async).opening_hours.weekday_text'>
+                    {{(info|async).opening_hours.weekday_text[convertTime.getPlaceDay((info|async).utc_offset)] | singlePeriod}}
+                </span>
+                <span *ngIf = '(info|async).opening_hours.weekday_text'>
+                    <ng-template #content let-c="close" let-d="dismiss">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Daily open hours</h4>
+                              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <table  class = 'table'>
+                                        <tbody id = 'modaltbody'>
+                                        <tr *ngFor = 'let text of (info|async).opening_hours.weekday_text | parseOpenPeriods:convertTime.getPlaceDay((info|async).utc_offset)'>
+                                            <td>
+                                                {{text[0]}}
+                                            </td>
+                                            <td>
+                                                {{text[1]}}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+                            </div>
+                    </ng-template>
+                    <a class = "text-primary" (click)="openVerticallyCentered(content)"> Daily open hours</a>
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>

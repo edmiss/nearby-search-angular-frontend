@@ -1,0 +1,71 @@
+<!-- <h2>{{data | json}}</h2> -->
+
+<div class = 'col-sm-12 col-md-10 mx-auto'>
+<!-- loading bar -->
+<div *ngIf = '(data["error"]=="unload"||!data) &&!locError'>
+  <div  class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%"></div>
+  </div>
+</div>
+
+<div *ngIf = 'data["error"] == "no_result"'>
+    <div class="alert alert-warning" role="alert">
+    <strong>No result!</strong> There is no result can be found.
+    </div>
+</div>
+
+
+<div *ngIf = 'locError'>
+    <div class="alert alert-danger" role="alert" >
+        Your inputted location is not an valid locaion for google geolocation.
+    </div>
+</div>
+
+
+<div *ngIf = 'data.results &&!locError' class = 'd-flex flex-row-reverse mb-4'>
+    <button type = 'button' (click) = 'display.showDetail()' class = 'btn btn-outline-light text-dark border border-dark' [disabled] = "(detail.detail|async).info == undefined" >
+        <i class="fas fa-angle-right" ></i><span>Details</span>
+    </button>
+</div>
+
+<table *ngIf = 'data.results &&!locError' class = 'table table-hover col-sm-12'>
+<thead>
+  <tr>
+    <th>#</th>
+    <th>Category</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Favourite</th>
+    <th>Details</th>
+  </tr>
+</thead>
+  <tr *ngFor='let result of data.results' [class.selected-row] = 'detail.place_id == result.place_id'>
+    <td>
+      <strong>{{result.index}}</strong>
+    </td>
+    <td>
+      <img style = 'height:2em'src  = '{{result.icon}}'>
+    </td>
+    <td>{{result.name}}</td>
+    <td>{{result.address}}</td>
+    
+    <td>
+      <!-- <div class = 'btn btn-outline-light text-dark mx-auto'>
+        <i class="fas fa-star"></i>
+      </div> -->
+      <favourite-btn [result] = 'result'></favourite-btn>
+    </td>  
+    <td>
+      <detail-btn [placeId] = 'result.place_id'></detail-btn>
+    </td>
+    <!-- button for place_id -->
+  </tr>
+</table>
+<div class = 'col-sm-12'>
+  <div class = 'col-sm-2 mx-auto'>
+    <button *ngIf = 'prevData.length>0' (click) = 'popLastPage()' class = 'btn btn-outline-light text-dark'>Prev</button>
+    <button *ngIf = 'data.next_page_token' class = 'btn btn-outline-light text-dark' (click) = 'requestNextPage()'>Next</button>
+  </div>
+</div>
+
+</div>

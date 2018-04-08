@@ -1,0 +1,23 @@
+#modaltbody tr:first-child{
+    font-weight: 800;
+}
+
+a{
+    cursor: pointer;
+}
+
+.star {
+    position: relative;  
+    display: inline-block;
+    font-size: 1rem;
+    color: #d3d3d3;
+  }
+.full {
+    color: orange;
+  }
+.half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: orange;
+  }

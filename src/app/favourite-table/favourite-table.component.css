@@ -1,0 +1,7 @@
+div.btn:hover { 
+    background-color: lightcoral;
+}
+
+.selected-row{
+    background-color:lightyellow;
+}

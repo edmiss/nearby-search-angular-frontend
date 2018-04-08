@@ -1,0 +1,16 @@
+<div class = 'mt-4' >
+    <div *ngIf = '!(photos|async)||(photos|async).length==0'>
+        <div class="alert alert-warning" role="alert">
+            No Record. 
+        </div>
+    </div>
+    <div class='container' *ngIf = 'photos|async'>
+        <div class='card-columns card_photos' >
+            <div class='card m-1' *ngFor = 'let ref of (photos | async)'>
+                <a [href]='ref' target='_blank'>
+                    <img alt='Card image cap' class='card-img-top img-fluid' [src]='ref'>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class = 'col-sm-12 col-md-10 mx-auto'>
+    <div class="alert alert-warning" role="alert" *ngIf = '!(favourite.getList().length>0)'>
+        <strong>No Result!</strong> There is no result in the table
+      </div>
+    
+      <div *ngIf = '(detail.detail|async)' class = 'd-flex flex-row-reverse mb-4'>
+          <button type = 'button' (click) = 'display.showDetail()' class = 'btn btn-outline-light text-dark border border-dark' [disabled] = "(detail.detail|async).info == undefined" >
+              <i class="fas fa-angle-right" ></i><span>Details</span>
+          </button>
+      </div>
+
+
+
+    <table class = 'table table-hover' *ngIf = 'favourite.getList().length>0'>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Favourite</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+      <tr *ngFor='let result of favourite.getList().slice(page*20,page*20+20);let i = index' [class.selected-row] = 'detail.place_id == result.place_id'>
+        <td>
+          <strong>{{i+1}}</strong>
+        </td>
+        <td>
+          <img style = 'height:2em'src  = '{{result.icon}}'>
+        </td>
+        <td>{{result.name}}</td>
+        <td>{{result.address}}</td>
+        
+        <td>
+          <div class = 'btn btn-outline-light text-dark mx-auto' (click) = 'favourite.toggle(result)'>
+              <i class="far fa-trash-alt"></i>
+          </div>
+        </td>  
+        <td>
+          <detail-btn [placeId] = 'result.place_id'></detail-btn>
+        </td>
+        <!-- button for place_id -->
+      </tr>
+    </table>
+
+    <div class = 'col-sm-12'>
+      <div class = 'mx-auto'>
+        <button *ngIf = 'page!=0' (click) = 'prevPage()' class = 'btn btn-outline-light text-dark'>Prev</button>
+        <button *ngIf = '(page+1)*20 < favourite.getList().length' (click) = 'nextPage()' class = 'btn btn-outline-light text-dark'>Next</button>
+      </div>
+    </div>
+    
+    </div>

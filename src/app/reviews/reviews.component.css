@@ -1,0 +1,30 @@
+.rating-star {
+    unicode-bidi: bidi-override;
+    font-size: 1em;
+    height: 1em;
+    width: 4em;
+    margin: 0;
+    position: relative;
+    padding: 0;
+    display: inline-block;
+  }
+  .rating-star-top {
+      color: orange;
+      padding: 0;
+      position: absolute;
+      z-index: 1;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      word-wrap: normal;
+  }
+
+  a{
+      cursor: pointer;
+  }
+
+  .card{
+      margin:1em 0 1em 0;
+      padding:1em 1em 1em 1em;
+  }

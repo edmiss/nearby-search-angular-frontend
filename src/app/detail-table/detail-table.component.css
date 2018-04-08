@@ -1,0 +1,20 @@
+agm-map {
+    height: 300px;
+  }
+
+nav nav-table{
+  float:right;
+}
+
+.form-control.ng-touched.ng-invalid{
+  border:1px solid red
+}
+
+.red-border{
+  border:1px solid red
+}
+
+
+.twitter-icon{
+  background-color: #00aced;
+}
